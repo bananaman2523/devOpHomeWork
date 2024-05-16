@@ -1,0 +1,22 @@
+# my-nginx-project/docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend/test.html:/usr/share/nginx/html/test.html
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+

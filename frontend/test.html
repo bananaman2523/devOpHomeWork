@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Numbers</title>
+</head>
+<body>
+    <h2>Number Input Form</h2>
+    <form id="numberForm">
+        <label for="num1">Number 1:</label><br>
+        <input type="number" id="num1" name="num1"><br><br>
+        <label for="num2">Number 2:</label><br>
+        <input type="number" id="num2" name="num2"><br><br>
+        <button type="button" onclick="sendNumbers()">Submit</button>
+    </form>
+    <div id="data"></div>
+
+    <script>
+        function sendNumbers() {
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+
+            fetch('http://localhost:3000/submit-numbers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ num1, num2 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display response in HTML
+                document.getElementById("data").innerText = `Sum: ${data.message}`;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
